@@ -17,7 +17,7 @@
                 @enderror
                 <div class="form-group row">
                     <select wire:model="tropical1Input" class="form-control active col-md-8">
-                        <option value="null" selected> Active Ingredient 1</option>
+                        <option value=""> Active Ingredient 1</option>
                         @foreach ($tropicals as $tropical)
                             <option value="{{ $tropical->id }}"> {{ $tropical->name }}</option>
                         @endforeach
@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="tropical2Input" class="form-control active col-md-8">
-                        <option value="null" selected> Active Ingredient 2</option>
+                        <option value=""> Active Ingredient 2</option>
                         @foreach ($tropicals as $tropical)
                             <option value="{{ $tropical->id }}"> {{ $tropical->name }}</option>
                         @endforeach
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="tropical3Input" class="form-control active col-md-8">
-                        <option value="null" selected> Active Ingredient 3</option>
+                        <option value=""> Active Ingredient 3</option>
                         @foreach ($tropicals as $tropical)
                             <option value="{{ $tropical->id }}"> {{ $tropical->name }}</option>
                         @endforeach
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="tropical4Input" class="form-control active col-md-8">
-                        <option value="null" selected> Active Ingredient 4</option>
+                        <option value=""> Active Ingredient 4</option>
                         @foreach ($tropicals as $tropical)
                             <option value="{{ $tropical->id }}"> {{ $tropical->name }}</option>
                         @endforeach
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="tropical5Input" class="form-control active col-md-8">
-                        <option value="null" selected> Active Ingredient 5</option>
+                        <option value=""> Active Ingredient 5</option>
                         @foreach ($tropicals as $tropical)
                             <option value="{{ $tropical->id }}"> {{ $tropical->name }}</option>
                         @endforeach
@@ -103,7 +103,7 @@
 
                 <div class="form-group row">
                     <select wire:model="baseInput" class="form-control base col-md-8">
-                        <option value="null" selected>Choose Base 1</option>
+                        <option value="">Choose Base 1</option>
                         @foreach ($bases as $base)
                             <option value="{{ $base->id }}"> {{ $base->name }}</option>
                         @endforeach
@@ -123,30 +123,48 @@
 
                 </div>
                 <div class="form-group row">
-                    <select class="form-control  base col-md-8">
-                        <option selected>Choose Bases 2</option>
+                    <select wire:model="baseInput2" class="form-control base col-md-8">
+                        <option value="">Choose Base 2</option>
+                        @foreach ($bases as $base)
+                            <option value="{{ $base->id }}"> {{ $base->name }}</option>
+                        @endforeach
                     </select>
 
                     <div class="col-md-3">
-                        <input type="number"  class="form-control" id="" placeholder="">
+                        <input type="number" wire:model="price7" class="form-control" id="" placeholder=""
+                            @if ($baseInput2 == 'null' || empty($baseInput2)) readonly @endif>
+                        @error('price7')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <label class="col-md-1 mb-1" style="font-size:28px;">%</label>
-
+                    @error('baseInput2')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group row">
-                    <select class="form-control base col-md-8">
-                        <option selected>Choose Bases 3</option>
+                    <select wire:model="baseInput3" class="form-control base col-md-8">
+                        <option value="">Choose Base 3</option>
+                        @foreach ($bases as $base)
+                            <option value="{{ $base->id }}"> {{ $base->name }}</option>
+                        @endforeach
                     </select>
 
                     <div class="col-md-3">
-                        <input type="number"  class="form-control" id="" placeholder="">
+                        <input type="number" wire:model="price8" class="form-control" id="" placeholder=""
+                            @if ($baseInput3 == 'null' || empty($baseInput3)) readonly @endif>
+                        @error('price8')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <label class="col-md-1 mb-1" style="font-size:28px;">%</label>
-
+                    @error('baseInput3')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group row ">
                     <input type="text" class="form-control col-md-8" id="" style="margin: 0 0 0px 0; !important;"
-                        placeholder=" Total Qauntity of Compounding" readonly>
+                        placeholder=" Total Qauntity" readonly>
                     <div class="col-md-3">
                         <input type="number" value={{ $gram_price }} class="form-control" id="" placeholder=""
                             readonly>
@@ -157,7 +175,7 @@
 
                 <div class="form-group row">
                     <select wire:model="basePack" class="form-control col-md-8">
-                        <option value="null" selected>Packing</option>
+                        <option value="" selected>Packing</option>
                         @foreach ($packings as $packing)
                             <option value="{{ $packing->id }}">{{ $packing->name }}</option>
                         @endforeach
@@ -173,7 +191,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="delivery" class="form-control col-md-8">
-                        <option value="null" selected>Delivery</option>
+                        <option value="" selected>Delivery</option>
                         @foreach ($deliveries as $delivery)
                             <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
                         @endforeach
@@ -186,9 +204,9 @@
                     @error('delivery')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    <div class="col-md-1">
+                    {{-- <div class="col-md-1">
                         <button type="submit" class="btn btn-primary">Reset</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -221,7 +239,7 @@
             <div class="card-body bgcolor">
                 <div class="form-group row">
                     {{-- <input type="text" class="form-control col-md-12" id="" value = "{{ $total_price }}" placeholder="Calculate Your Price"> --}}
-                    <button type="submit" wire:click="calculateTotal()"
+                    <button type="submit" wire:click="total()"
                         class="btn btn-primary offset-md-4 col-md-4 offset-md-4">Calculate</button>
                 </div>
 

@@ -12,9 +12,9 @@ use Livewire\Component;
 class Icompoundit extends Component
 {
     public $tropical,$bases,$packings,$packings_id,$deliveries;
-    public $baseInput,$tropical1Input,$tropical2Input,$tropical3Input,$tropical4Input,$tropical5Input,$basePack,$delivery;
-    public $tropical_price1,$tropical_price2,$tropical_price3,$tropical_price4,$tropical_price5,$base_price;
-    public $price1 = 0,$price2 = 0,$price3 = 0,$price4 = 0,$price5 = 0,$price6 = 0,$packing_price = 0,$delivery_price = 0,$total_price = 0,$gram_price = 0;
+    public $baseInput,$baseInput2,$baseInput3,$tropical1Input,$tropical2Input,$tropical3Input,$tropical4Input,$tropical5Input,$basePack,$delivery;
+    public $tropical_price1,$tropical_price2,$tropical_price3,$tropical_price4,$tropical_price5,$base_price,$base_price2,$base_price3;
+    public $price1 = 0,$price2 = 0,$price3 = 0,$price4 = 0,$price5 = 0,$price6 = 0,$price7 = 0,$price8 = 0,$packing_price = 0,$delivery_price = 0,$total_price = 0,$gram_price = 0;
 
     public function mount()
     {
@@ -29,7 +29,8 @@ class Icompoundit extends Component
         return view('livewire.icompoundit');
     }
 
-    public function calculateTotal(){
+    public function total()
+    {
         $rules = $this->getRules();
         if (!empty($rules)) $this->validate($rules,[
             'tropical1Input.required' => 'Please Select Atleast One Ingredient.',
@@ -46,15 +47,44 @@ class Icompoundit extends Component
             'price5.gt' => 'Add Quantity.',
             'price6.required' => 'Add Quantity.',
             'price6.gt' => 'Add Quantity.',
+            'price7.required' => 'Add Quantity.',
+            'price7.gt' => 'Add Quantity.',
+            'price8.required' => 'Add Quantity.',
+            'price8.gt' => 'Add Quantity.',
             'basePack.required' => 'Select Packing.',
             'delivery.required' => 'Select Delivery.',
         ]);
+            $this->calculateGrams();
+            $this->calculateTotal();
+    }
+    public function calculateTotal(){
+        // $rules = $this->getRules();
+        // if (!empty($rules)) $this->validate($rules,[
+        //     'tropical1Input.required' => 'Please Select Atleast One Ingredient.',
+        //     'baseInput.required' => 'Please Select Base.',
+        //     'price1.required' => 'Add Quantity.',
+        //     'price1.gt' => 'Add Quantity.',
+        //     'price2.required' => 'Add Quantity.',
+        //     'price2.gt' => 'Add Quantity.',
+        //     'price3.required' => 'Add Quantity.',
+        //     'price3.gt' => 'Add Quantity.',
+        //     'price4.required' => 'Add Quantity.',
+        //     'price4.gt' => 'Add Quantity.',
+        //     'price5.required' => 'Add Quantity.',
+        //     'price5.gt' => 'Add Quantity.',
+        //     'price6.required' => 'Add Quantity.',
+        //     'price6.gt' => 'Add Quantity.',
+        //     'basePack.required' => 'Select Packing.',
+        //     'delivery.required' => 'Select Delivery.',
+        // ]);
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
         if($this->price4 == "") $this->price4 = 0;
         if($this->price5 == "") $this->price5 = 0;
         if($this->price6 == "") $this->price6 = 0;
+        if($this->price7 == "") $this->price7 = 0;
+        if($this->price8 == "") $this->price8 = 0;
         
         // if($this->price1!=0) $this->total_price += $this->tropical_price1 * $this->price1 ;
         // if($this->price2!=0) $this->total_price += $this->tropical_price2 * $this->price2 ;
@@ -71,13 +101,19 @@ class Icompoundit extends Component
         // if($this->price6==0) $this->total_price += $this->base_price * 1 ;
 
         if($this->tropical_price1 != null || $this->tropical_price2 != null || $this->tropical_price3 != null || $this->tropical_price4 != null || $this->tropical_price5 != null || $this->base_price != null){
-            $this->total_price = ($this->tropical_price1 * $this->price1) +
-            ($this->tropical_price2 * $this->price2) +
-            ($this->tropical_price3 * $this->price3) +
-            ($this->tropical_price4 * $this->price4) +
-            ($this->tropical_price5 * $this->price5) +
-            ($this->base_price * $this->price6) + 25 +
-            ($this->delivery_price) ;
+            if($this->price1 != 0 || $this->price2 != 0 || $this->price3 != 0 || $this->price4 != 0 || $this->price5 != 0 || $this->price6 != 0 || $this->price7 != 0 || $this->price8 != 0){
+                $this->total_price = ($this->tropical_price1 * $this->price1) +
+                ($this->tropical_price2 * $this->price2) +
+                ($this->tropical_price3 * $this->price3) +
+                ($this->tropical_price4 * $this->price4) +
+                ($this->tropical_price5 * $this->price5) +
+                ($this->base_price * $this->price6) +
+                ($this->base_price2 * $this->price7) +
+                ($this->base_price3 * $this->price8) + 25 +
+                ($this->delivery_price) ;
+            }else{
+                $this->total_price = 0;
+            }
         }else{
             $this->total_price = 0;
         }
@@ -311,170 +347,257 @@ class Icompoundit extends Component
         if($this->price4 == "") $this->price4 = 0;
         if($this->price5 == "") $this->price5 = 0;
         if($this->price6 == "") $this->price6 = 0;
+        if($this->price7 == "") $this->price7 = 0;
+        if($this->price8 == "") $this->price8 = 0;
         
         $this->gram_price = ($this->price1) +
         ($this->price2) +
         ($this->price3) +
         ($this->price4) +
         ($this->price5) +
-        ($this->price6);
+        ($this->price6) +
+        ($this->price7) +
+        ($this->price8);
         
     }
 
     public function updatedTropical1Input($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->tropical_price1 = 0;
             $this->price1 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price1 = $tropicals_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedTropical2Input($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->tropical_price2 = 0;
             $this->price2 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price2 = $tropicals_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedTropical3Input($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->tropical_price3 = 0;
             $this->price3 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price3 = $tropicals_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedTropical4Input($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->tropical_price4 = 0;
             $this->price4 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price4 = $tropicals_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedTropical5Input($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->tropical_price5 = 0;
             $this->price5 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price5 = $tropicals_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedBaseInput($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->base_price = 0;
             $this->price6 = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $bases_price = BasesCompounding::where('id',$value)->first();
             $this->base_price = $bases_price->price;
-            // $this->calculateTotal();
+            $this->price6 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5;
+            $this->calculateGrams();
+            $this->calculateTotal();
+
+        }
+    }
+    public function updatedBaseInput2($value){
+        if(empty($value)){
+            $this->base_price2 = 0;
+            $this->price7 = 0;
+            $this->calculateGrams();
+            $this->calculateTotal();
+
+        }else{
+            $bases_price = BasesCompounding::where('id',$value)->first();
+            $this->base_price2 = $bases_price->price;
+            $this->price7 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5 - $this->price6;
+            $this->calculateGrams();
+            $this->calculateTotal();
+
+        }
+    }
+    public function updatedBaseInput3($value){
+        if(empty($value)){
+            $this->base_price3 = 0;
+            $this->price8 = 0;
+            $this->calculateGrams();
+            $this->calculateTotal();
+
+        }else{
+            $bases_price = BasesCompounding::where('id',$value)->first();
+            $this->base_price3 = $bases_price->price;
+            $this->price8 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5 - $this->price6 - $this->price7;
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedBasePack($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->packings_id = null;
             $this->packing_price = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             // $packings_price = Packing::where('id',$value)->first();
             // $this->packing_price = $packings_price->price;
             $this->packings_id = $value;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedDelivery($value){
-        if($value == "null"){
+        if(empty($value)){
             $this->delivery_price = 0;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }else{
             $deliveries_price = Delivery::where('id',$value)->first();
             $this->delivery_price = $deliveries_price->price;
-            // $this->calculateTotal();
+            $this->calculateGrams();
+            $this->calculateTotal();
+
         }
     }
     public function updatedPrice1(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
     }
     public function updatedPrice2(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
     }
     public function updatedPrice3(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
     }
     public function updatedPrice4(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
     }
     public function updatedPrice5(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
     }
     public function updatedPrice6(){
-        // $this->calculateTotal();
         $this->calculateGrams();
+        $this->calculateTotal();
+    } 
+    public function updatedPrice7(){
+        $this->calculateGrams();
+        $this->calculateTotal();
+    }
+    public function updatedPrice8(){
+        $this->calculateGrams();
+        $this->calculateTotal();
     }
 
     public function getRules()
     {
         $rules = [];
-        if ($this->tropical1Input == null && $this->tropical2Input == null && $this->tropical3Input == null && $this->tropical4Input == null && $this->tropical5Input == null ) {
+        if (empty($this->tropical1Input) && empty($this->tropical2Input) && empty($this->tropical3Input) && empty($this->tropical4Input) && empty($this->tropical5Input)) {
             $rules += [
                 "tropical1Input" => "required",
             ];
         }
-        if ($this->tropical1Input) {
+        if ($this->tropical1Input && !empty($this->tropical1Input)) {
             $rules += [
                 "price1" => "required|numeric|gt:0",
             ];
         }
-        if ($this->tropical2Input) {
+        if ($this->tropical2Input && !empty($this->tropical2Input)) {
             $rules += [
                 "price2" => "required|numeric|gt:0",
             ];
         }
-        if ($this->tropical3Input) {
+        if ($this->tropical3Input && !empty($this->tropical3Input)) {
             $rules += [
                 "price3" => "required|numeric|gt:0",
             ];
         }
-        if ($this->tropical4Input) {
+        if ($this->tropical4Input && !empty($this->tropical4Input)) {
             $rules += [
                 "price4" => "required|numeric|gt:0",
             ];
         }
-        if ($this->tropical5Input) {
+        if ($this->tropical5Input && !empty($this->tropical5Input)) {
             $rules += [
                 "price5" => "required|numeric|gt:0",
             ];
         }
-        if ($this->baseInput == null) {
+        if (empty($this->baseInput) && empty($this->baseInput2) && empty($this->baseInput3) ) {
             $rules += [
                 "baseInput" => "required",
             ];
         }
-        if ($this->baseInput) {
+        if ($this->baseInput && !empty($this->baseInput)) {
             $rules += [
                 "price6" => "required|numeric|gt:0",
+            ];
+        }
+        if ($this->baseInput2 && !empty($this->baseInput2)) {
+            $rules += [
+                "price7" => "required|numeric|gt:0",
+            ];
+        }
+        if ($this->baseInput3 && !empty($this->baseInput3)) {
+            $rules += [
+                "price8" => "required|numeric|gt:0",
             ];
         }
         
@@ -509,6 +632,10 @@ class Icompoundit extends Component
             'price5.gt' => 'Add Quantity.',
             'price6.required' => 'Add Quantity.',
             'price6.gt' => 'Add Quantity.',
+            'price7.required' => 'Add Quantity.',
+            'price7.gt' => 'Add Quantity.',
+            'price8.required' => 'Add Quantity.',
+            'price8.gt' => 'Add Quantity.',
             'basePack.required' => 'Select Packing.',
             'delivery.required' => 'Select Delivery.',
         ]);
