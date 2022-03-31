@@ -9,7 +9,7 @@
                 </div>
             @endif
             <div class="card-header">
-                <h4>Topicals &nbsp;&nbsp; Liquid &nbsp;&nbsp; Caps &nbsp;&nbsp; Supp &nbsp;&nbsp; Sterile</h4>
+                <h4>Topicals Pain Killers </h4>
             </div>
             <div class="card-body bgcolor">
                 @error('tropical1Input')
@@ -111,7 +111,7 @@
 
                     <div class="col-md-3">
                         <input type="number" wire:model="price6" class="form-control" id="" placeholder=""
-                            @if ($baseInput == 'null' || empty($baseInput)) readonly @endif>
+                             readonly>
                         @error('price6')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -122,7 +122,7 @@
                     @enderror
 
                 </div>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <select wire:model="baseInput2" class="form-control base col-md-8">
                         <option value="">Choose Base 2</option>
                         @foreach ($bases as $base)
@@ -161,16 +161,19 @@
                     @error('baseInput3')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="form-group row ">
                     <input type="text" class="form-control col-md-8" id="" style="margin: 0 0 0px 0; !important;"
                         placeholder=" Total Qauntity" readonly>
                     <div class="col-md-3">
-                        <input type="number" value={{ $gram_price }} class="form-control" id="" placeholder=""
-                            readonly>
+                        <input type="number" wire:model="tCompound" class="form-control" id="" placeholder="">
+                        @error('tCompound')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+
                     </div>
                     <label class="col-md-1 mb-1" style="font-size:28px;">%</label>
-
+                    
                 </div>
 
                 <div class="form-group row">
