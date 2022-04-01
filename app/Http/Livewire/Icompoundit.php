@@ -12,9 +12,11 @@ use Livewire\Component;
 class Icompoundit extends Component
 {
     public $tropical,$bases,$packings,$packings_id,$deliveries,$tCompound = 0;
-    public $baseInput,$baseInput2,$baseInput3,$tropical1Input,$tropical2Input,$tropical3Input,$tropical4Input,$tropical5Input,$basePack,$delivery;
+    public $baseInput,$baseInput2,$baseInput3, $basePack = "",$delivery="";
+    public $tropical1Input = "", $tropical2Input = "", $tropical3Input = "", $tropical4Input = "", $tropical5Input = "";
     public $tropical_price1,$tropical_price2,$tropical_price3,$tropical_price4,$tropical_price5,$base_price,$base_price2,$base_price3;
-    public $price1 = 0,$price2 = 0,$price3 = 0,$price4 = 0,$price5 = 0,$price6 = 0,$price7 = 0,$price8 = 0,$packing_price = 0,$delivery_price = 0,$total_price = 0,$gram_price = 0;
+    public $price1 = 0,$price2 = 0,$price3 = 0,$price4 = 0,$price5 = 0,$price6 = 0,$price7 = 0,$price8 = 0;
+    public $packing_price = 0,$delivery_price = 0,$total_price = 0,$gram_price = 0,$ingredientPrice = 0;
 
     public function mount()
     {
@@ -29,8 +31,41 @@ class Icompoundit extends Component
         return view('livewire.icompoundit');
     }
 
+    public function priceReset()
+    {
+        $this->tCompound = 0;
+        $this->baseInput= "";
+        $this->basePack = "";
+        $this->delivery="";
+        $this->tropical1Input = "";
+        $this->tropical2Input = ""; 
+        $this->tropical3Input = ""; 
+        $this->tropical4Input = ""; 
+        $this->tropical5Input = "";
+        $this->price1 = 0;
+        $this->price2 = 0;
+        $this->price3 = 0;
+        $this->price4 = 0;
+        $this->price5 = 0;
+        $this->price6 = 0;
+        $this->packing_price = 0;
+        $this->delivery_price = 0;
+        $this->total_price = 0;
+        $this->gram_price = 0;
+        $this->ingredientPrice = 0;
+    }
+
     public function total()
     {
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price1 > 50 || $this->price2 > 50 || $this->price3 > 50 || $this->price4 > 50 || $this->price5 > 50 || $this->price6 < 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $rules = $this->getRules();
         if (!empty($rules)) $this->validate($rules,[
             'tropical1Input.required' => 'Please Select Atleast One Ingredient.',
@@ -388,6 +423,15 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            $this->ingredientPrice = 
+                ($this->price1) +
+                ($this->price2) +
+                ($this->price3) +
+                ($this->price4) +
+                ($this->price5);
+            if($this->price1 > 50 || $this->ingredientPrice > 50){
+                $this->dispatchBrowserEvent('modal');
+            }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price1 = $tropicals_price->price;
             // $this->calculateGrams();
@@ -403,6 +447,15 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            $this->ingredientPrice = 
+                ($this->price1) +
+                ($this->price2) +
+                ($this->price3) +
+                ($this->price4) +
+                ($this->price5);
+            if($this->price2 > 50 || $this->ingredientPrice > 50){
+                $this->dispatchBrowserEvent('modal');
+            }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price2 = $tropicals_price->price;
             // $this->calculateGrams();
@@ -418,6 +471,15 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            $this->ingredientPrice = 
+                ($this->price1) +
+                ($this->price2) +
+                ($this->price3) +
+                ($this->price4) +
+                ($this->price5);
+            if($this->price3 > 50 || $this->ingredientPrice > 50){
+                $this->dispatchBrowserEvent('modal');
+            }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price3 = $tropicals_price->price;
             // $this->calculateGrams();
@@ -433,6 +495,15 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            $this->ingredientPrice = 
+                ($this->price1) +
+                ($this->price2) +
+                ($this->price3) +
+                ($this->price4) +
+                ($this->price5);
+            if($this->price4 > 50 || $this->ingredientPrice > 50){
+                $this->dispatchBrowserEvent('modal');
+            }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price4 = $tropicals_price->price;
             // $this->calculateGrams();
@@ -448,6 +519,15 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            $this->ingredientPrice = 
+                ($this->price1) +
+                ($this->price2) +
+                ($this->price3) +
+                ($this->price4) +
+                ($this->price5);
+            if($this->price5 > 50 || $this->ingredientPrice > 50){
+                $this->dispatchBrowserEvent('modal');
+            }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price5 = $tropicals_price->price;
             // $this->calculateGrams();
@@ -463,6 +543,7 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+           
             $bases_price = BasesCompounding::where('id',$value)->first();
             $this->base_price = $bases_price->price;
             // $this->calculateGrams();
@@ -534,26 +615,80 @@ class Icompoundit extends Component
     }
     public function updatedPrice1(){
         // $this->calculateGrams();
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price1 > 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $this->calculateTotal();
     }
     public function updatedPrice2(){
         // $this->calculateGrams();
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price2 > 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $this->calculateTotal();
     }
     public function updatedPrice3(){
         // $this->calculateGrams();
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price3 > 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $this->calculateTotal();
     }
     public function updatedPrice4(){
         // $this->calculateGrams();
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price4 > 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $this->calculateTotal();
     }
     public function updatedPrice5(){
         // $this->calculateGrams();
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price5 > 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $this->calculateTotal();
     }
     public function updatedPrice6(){
         // $this->calculateGrams();
+        // if($this->price5 < 50){
+        //     $this->ingredientPrice = 
+                // ($this->price1) +
+                // ($this->price2) +
+                // ($this->price3) +
+                // ($this->price4) +
+                // ($this->price5);
+                // if($this->ingredientPrice > 50) $this->dispatchBrowserEvent('modal');
+        // }
         $this->calculateTotal();
     } 
     public function updatedTCompound(){
@@ -644,6 +779,15 @@ class Icompoundit extends Component
    
     public function getMail()
     {
+        $this->ingredientPrice = 
+            ($this->price1) +
+            ($this->price2) +
+            ($this->price3) +
+            ($this->price4) +
+            ($this->price5);
+        if($this->price1 > 50 || $this->price2 > 50 || $this->price3 > 50 || $this->price4 > 50 || $this->price5 > 50 || $this->price6 < 50 || $this->ingredientPrice > 50){
+            $this->dispatchBrowserEvent('modal');
+        }
         $rules = $this->getRules();
         if (!empty($rules)) $this->validate($rules,[
             'tropical1Input.required' => 'Please Select Atleast One Ingredient.',

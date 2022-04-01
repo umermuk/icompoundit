@@ -1026,6 +1026,14 @@
             }
         }, false);
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(document).ready(function(){
+            window.addEventListener('modal', () => {
+                $('#modalError').modal('show');
+            });
+        });
+    </script>
     <!-- End Facebook Pixel Event Code -->
     <div id='fb-pxl-ajax-code'></div>
     <script type='text/javascript'

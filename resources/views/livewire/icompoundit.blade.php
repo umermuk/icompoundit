@@ -178,7 +178,7 @@
 
                 <div class="form-group row">
                     <select wire:model="basePack" class="form-control col-md-8">
-                        <option value="" selected>Packing</option>
+                        <option value="">Packing</option>
                         @foreach ($packings as $packing)
                             <option value="{{ $packing->id }}">{{ $packing->name }}</option>
                         @endforeach
@@ -194,7 +194,7 @@
                 </div>
                 <div class="form-group row">
                     <select wire:model="delivery" class="form-control col-md-8">
-                        <option value="" selected>Delivery</option>
+                        <option value="">Delivery</option>
                         @foreach ($deliveries as $delivery)
                             <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
                         @endforeach
@@ -275,4 +275,22 @@
         <p class="d-flex justify-content-center">Question? Please call us At Macleod Trail Compounding Pharmcay
             &nbsp; <span><i class="fas fa-phone-square"></i> &nbsp;403-452-6013</span></p>
     </div>
+        <div wire:ignore.self class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Quantity Error.Please Call 403-452-6013 & discuss with a Compounding.</p>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" wire:click="priceReset()">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
+
