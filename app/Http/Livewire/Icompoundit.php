@@ -57,6 +57,14 @@ class Icompoundit extends Component
 
     public function total()
     {
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
+
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -447,6 +455,13 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            if($this->price1 == "") $this->price1 = 0;
+            if($this->price2 == "") $this->price2 = 0;
+            if($this->price3 == "") $this->price3 = 0;
+            if($this->price4 == "") $this->price4 = 0;
+            if($this->price5 == "") $this->price5 = 0;
+            if($this->price6 == "") $this->price6 = 0;
+            if($this->tCompound == "") $this->tCompound = 0;
             $this->ingredientPrice = 
                 ($this->price1) +
                 ($this->price2) +
@@ -471,6 +486,13 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            if($this->price1 == "") $this->price1 = 0;
+            if($this->price2 == "") $this->price2 = 0;
+            if($this->price3 == "") $this->price3 = 0;
+            if($this->price4 == "") $this->price4 = 0;
+            if($this->price5 == "") $this->price5 = 0;
+            if($this->price6 == "") $this->price6 = 0;
+            if($this->tCompound == "") $this->tCompound = 0;
             $this->ingredientPrice = 
                 ($this->price1) +
                 ($this->price2) +
@@ -495,6 +517,13 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+                if($this->price1 == "") $this->price1 = 0;
+            if($this->price2 == "") $this->price2 = 0;
+            if($this->price3 == "") $this->price3 = 0;
+            if($this->price4 == "") $this->price4 = 0;
+            if($this->price5 == "") $this->price5 = 0;
+            if($this->price6 == "") $this->price6 = 0;
+            if($this->tCompound == "") $this->tCompound = 0;
             $this->ingredientPrice = 
                 ($this->price1) +
                 ($this->price2) +
@@ -519,6 +548,13 @@ class Icompoundit extends Component
             $this->calculateTotal();
 
         }else{
+            if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
             $this->ingredientPrice = 
                 ($this->price1) +
                 ($this->price2) +
@@ -615,6 +651,13 @@ class Icompoundit extends Component
     }
     public function updatedPrice1(){
         // $this->calculateGrams();
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -628,6 +671,13 @@ class Icompoundit extends Component
     }
     public function updatedPrice2(){
         // $this->calculateGrams();
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -641,6 +691,13 @@ class Icompoundit extends Component
     }
     public function updatedPrice3(){
         // $this->calculateGrams();
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -654,6 +711,13 @@ class Icompoundit extends Component
     }
     public function updatedPrice4(){
         // $this->calculateGrams();
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -667,6 +731,13 @@ class Icompoundit extends Component
     }
     public function updatedPrice5(){
         // $this->calculateGrams();
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
@@ -779,6 +850,13 @@ class Icompoundit extends Component
    
     public function getMail()
     {
+        if($this->price1 == "") $this->price1 = 0;
+        if($this->price2 == "") $this->price2 = 0;
+        if($this->price3 == "") $this->price3 = 0;
+        if($this->price4 == "") $this->price4 = 0;
+        if($this->price5 == "") $this->price5 = 0;
+        if($this->price6 == "") $this->price6 = 0;
+        if($this->tCompound == "") $this->tCompound = 0;
         $this->ingredientPrice = 
             ($this->price1) +
             ($this->price2) +
