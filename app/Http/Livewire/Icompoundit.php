@@ -74,6 +74,7 @@ class Icompoundit extends Component
         if($this->price1 > 50 || $this->price2 > 50 || $this->price3 > 50 || $this->price4 > 50 || $this->price5 > 50 || $this->price6 < 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
+        
         $rules = $this->getRules();
         if (!empty($rules)) $this->validate($rules,[
             'tropical1Input.required' => 'Please Select Atleast One Ingredient.',
@@ -149,15 +150,30 @@ class Icompoundit extends Component
         if($this->tropical_price1 != null || $this->tropical_price2 != null || $this->tropical_price3 != null || $this->tropical_price4 != null || $this->tropical_price5 != null || $this->base_price != null){
             if($this->price1 != 0 || $this->price2 != 0 || $this->price3 != 0 || $this->price4 != 0 || $this->price5 != 0 || $this->price6 != 0 || $this->tCompound != 0 ){
                 $this->price6 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5;
-                if($this->tCompound < 100){
+                if($this->tCompound <= 100 && $this->tCompound != 0){
                     $this->total_price = 
                     ($this->tropical_price1 * $this->price1) +
                     ($this->tropical_price2 * $this->price2) +
                     ($this->tropical_price3 * $this->price3) +
                     ($this->tropical_price4 * $this->price4) +
                     ($this->tropical_price5 * $this->price5) +
-                    ($this->base_price * $this->price6) + 25 +
-                    ($this->delivery_price);
+                    ($this->base_price * $this->price6) + 25 ;
+                    if($this->packings_id == 2){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price;
+                        $this->total_price += $this->packing_price;
+                    }
+                    if($this->packings_id == 3){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price;
+                        $this->total_price += $this->packing_price;
+                    }
+                    if($this->packings_id == 1 || $this->packings_id == 4){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price;
+                        $this->total_price += $this->packing_price;
+                        // dd($this->total_price);
+                    }
                 }else{
                     $percent = $this->tCompound - 100;
                     $this->total_price = 
@@ -166,9 +182,25 @@ class Icompoundit extends Component
                     ($this->tropical_price3 * $this->price3) +
                     ($this->tropical_price4 * $this->price4) +
                     ($this->tropical_price5 * $this->price5) +
-                    ($this->base_price * $this->price6) + 25 ;
+                    ($this->base_price * $this->price6) + 25 * (1 + ($percent / 100) );
                     $total = $this->total_price * (1 + ($percent / 100) ); 
                     $this->total_price = $total;
+
+                    if($this->packings_id == 2){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price * 2;
+                        $this->total_price += $this->packing_price;
+                    }
+                    if($this->packings_id == 3){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price * 2;
+                        $this->total_price += $this->packing_price;
+                    }
+                    if($this->packings_id == 1 || $this->packings_id == 4){
+                        $packing_price = Packing::where('id',$this->packings_id)->first();
+                        $this->packing_price = $packing_price->price;
+                        $this->total_price += $this->packing_price;
+                    }
                 }
                 // ($this->base_price2 * $this->price7 ) 
                 // ($this->base_price3 * $this->price8) 
@@ -178,220 +210,219 @@ class Icompoundit extends Component
         }else{
             $this->total_price = 0;
         }
+        if($this->delivery_price) $this->total_price += $this->delivery_price;
 
-        // if($this->price1 > 100 || $this->price2 > 100 || $this->price3 > 100 || $this->price4 > 100 || $this->price5 || $this->price6 > 100)
-        // {
-            if($this->price1 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price1 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
+            // if($this->price1 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price1 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //         // dd($this->total_price);
+            //     }
                 
-            }
+            // }
         
-            if($this->price2 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price2 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
+            // if($this->price2 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price2 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
 
-            if($this->price3 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price3 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
+            // if($this->price3 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price3 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
 
-            if($this->price4 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price4 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
+            // if($this->price4 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price4 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
 
-            if($this->price5 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price5 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
+            // if($this->price5 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price5 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
 
-            if($this->price6 > 100){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price * 2;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            elseif($this->price6 > 0){
-                if($this->packings_id == 2){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 3){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-                if($this->packings_id == 1 || $this->packings_id == 4){
-                    $packing_price = Packing::where('id',$this->packings_id)->first();
-                    $this->packing_price = $packing_price->price;
-                    $this->total_price += $this->packing_price;
-                }
-            }
-            if($this->delivery_price) $this->total_price += $this->delivery_price;
+            // if($this->price6 > 100){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price * 2;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
+            // elseif($this->price6 > 0){
+            //     if($this->packings_id == 2){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 3){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            //     if($this->packings_id == 1 || $this->packings_id == 4){
+            //         $packing_price = Packing::where('id',$this->packings_id)->first();
+            //         $this->packing_price = $packing_price->price;
+            //         $this->total_price += $this->packing_price;
+            //     }
+            // }
         // }else{
         //     if($this->packings_id == null){
         //         $this->packing_price = 0;
@@ -750,20 +781,9 @@ class Icompoundit extends Component
         $this->calculateTotal();
     }
     public function updatedPrice6(){
-        // $this->calculateGrams();
-        // if($this->price5 < 50){
-        //     $this->ingredientPrice = 
-                // ($this->price1) +
-                // ($this->price2) +
-                // ($this->price3) +
-                // ($this->price4) +
-                // ($this->price5);
-                // if($this->ingredientPrice > 50) $this->dispatchBrowserEvent('modal');
-        // }
         $this->calculateTotal();
     } 
     public function updatedTCompound(){
-        // $this->calculateGrams();
         $this->calculateTotal();
     }
     // public function updatedPrice7(){
@@ -891,23 +911,28 @@ class Icompoundit extends Component
             // 'tCompound.gt' => 'Must be Greater than 0.',
         ]);
         $email = 'hnhtechsolution02@gmail.com';
-        Mail::send(
-            'mail.compounding',
-            $data = [
-              'total_price' => $this->total_price,
-            ],
+        try {
+            Mail::send(
+                'mail.compounding',
+                $data = [
+                'total_price' => $this->total_price,
+                ],
 
-            function($message) use ($email){
-                $message->from(env('MAIL_USERNAME'));
-                $message->to($email);
-                $message->subject('ICompounding');
-            }
-        );
-        // return back()->with(['fail' => 'Mail not send']);
-        session()->flash('message', 'Placed Order');
-        session()->flash('messageType', 'success');
-        return redirect()->route('compounding');
-        
+                function($message) use ($email){
+                    $message->from(env('MAIL_USERNAME'));
+                    $message->to($email);
+                    $message->subject('ICompounding');
+                }
+            );
+            session()->flash('message', 'Placed Order');
+            session()->flash('messageType', 'success');
+            return redirect()->route('compounding');
+            
+        } catch (\Throwable $th) {
+            session()->flash('message', 'Mail not send');
+            session()->flash('messageType', 'fail');
+            return redirect()->route('compounding');
+        }
     }
 }
 
