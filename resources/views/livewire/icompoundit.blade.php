@@ -23,7 +23,7 @@
                         @endforeach
                     </select>
                     <div class="col-md-3">
-                        <input type="number" wire:model="price1" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price1" class="form-control" id="" placeholder=""
                             @if ($tropical1Input == 'null' || empty($tropical1Input)) readonly @endif>
                         @error('price1')
                             <div class="text-danger">{{ $message }}</div>
@@ -40,7 +40,7 @@
                         @endforeach
                     </select>
                     <div class="col-md-3">
-                        <input type="number" wire:model="price2" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price2" class="form-control" id="" placeholder=""
                             @if ($tropical2Input == 'null' || empty($tropical2Input)) readonly @endif>
                         @error('price2')
                             <div class="text-danger">{{ $message }}</div>
@@ -57,7 +57,7 @@
                         @endforeach
                     </select>
                     <div class="col-md-3">
-                        <input type="number" wire:model="price3" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price3" class="form-control" id="" placeholder=""
                             @if ($tropical3Input == 'null' || empty($tropical3Input)) readonly @endif>
                         @error('price3')
                             <div class="text-danger">{{ $message }}</div>
@@ -74,7 +74,7 @@
                         @endforeach
                     </select>
                     <div class="col-md-3">
-                        <input type="number" wire:model="price4" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price4" class="form-control" id="" placeholder=""
                             @if ($tropical4Input == 'null' || empty($tropical4Input)) readonly @endif>
                         @error('price4')
                             <div class="text-danger">{{ $message }}</div>
@@ -91,7 +91,7 @@
                         @endforeach
                     </select>
                     <div class="col-md-3">
-                        <input type="number" wire:model="price5" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price5" class="form-control" id="" placeholder=""
                             @if ($tropical5Input == 'null' || empty($tropical5Input)) readonly @endif>
                         @error('price5')
                             <div class="text-danger">{{ $message }}</div>
@@ -110,7 +110,7 @@
                     </select>
 
                     <div class="col-md-3">
-                        <input type="number" wire:model="price6" class="form-control" id="" placeholder=""
+                        <input type="number" wire:model.lazy="price6" class="form-control" id="" placeholder=""
                              readonly>
                         @error('price6')
                             <div class="text-danger">{{ $message }}</div>
@@ -166,7 +166,7 @@
                     <input type="text" class="form-control col-md-8" id="" style="margin: 0 0 0px 0; !important;"
                         placeholder=" Total Qauntity" readonly>
                     <div class="col-md-3">
-                        <input type="number" wire:model="tCompound" class="form-control" id="" placeholder="">
+                        <input type="number" wire:model.lazy="tCompound" class="form-control" id="" placeholder="">
                         @error('tCompound')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
