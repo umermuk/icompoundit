@@ -188,13 +188,13 @@ class Icompoundit extends Component
 
                     if($this->packings_id == 2){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
-                        $this->packing_price = $packing_price->price * (1 + ($percent / 100));
-                        $this->total_price += $this->packing_price + 1.5 ;
+                        $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
+                        $this->total_price += $this->packing_price;
                     }
                     if($this->packings_id == 3){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
-                        $this->packing_price = $packing_price->price * (1 + ($percent / 100));
-                        $this->total_price += $this->packing_price + 1.5 ;
+                        $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
+                        $this->total_price += $this->packing_price;
                     }
                     if($this->packings_id == 1 || $this->packings_id == 4){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
