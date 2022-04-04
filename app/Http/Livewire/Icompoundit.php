@@ -182,9 +182,9 @@ class Icompoundit extends Component
                     ($this->tropical_price3 * $this->price3) +
                     ($this->tropical_price4 * $this->price4) +
                     ($this->tropical_price5 * $this->price5) +
-                    ($this->base_price * $this->price6) + 25 + (1 + ($percent / 100) );
-                    $total = $this->total_price * (1 + ($percent / 100) ); 
-                    $this->total_price = $total;
+                    ($this->base_price * $this->price6) +  (25 * (1 + ($percent / 100) ));
+                    // $total = $this->total_price * (1 + ($percent / 100) ); 
+                    // $this->total_price = $total;
 
                     if($this->packings_id == 2){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
