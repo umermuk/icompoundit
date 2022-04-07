@@ -702,17 +702,21 @@
             background-color: #e5373b !important;
             border-color: #e5373b !important;
         }
-        .bgcolor{
+
+        .bgcolor {
             background-color: #13455e !important;
         }
-        .active{
+
+        .active {
             color: #e5373b !important;
             font-weight: bold;
         }
-        .base{
+
+        .base {
             color: blue !important;
             font-weight: bold;
         }
+
     </style>
 </head>
 
@@ -979,8 +983,7 @@
 
 
 
-
-
+  
     <footer role="contentinfo">
         <div id="footer" class="copyright-wrapper">
             <div class="container">
@@ -1005,17 +1008,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
     </footer>
 
     <!-- Facebook Pixel Event Code -->
@@ -1028,7 +1020,7 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             window.addEventListener('modal', () => {
                 $('#modalError').modal('show');
             });

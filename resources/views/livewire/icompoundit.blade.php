@@ -111,7 +111,7 @@
 
                     <div class="col-md-3">
                         <input type="number" wire:model.lazy="price6" class="form-control" id="" placeholder=""
-                             readonly>
+                            readonly>
                         @error('price6')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -165,15 +165,15 @@
                 <div class="form-group row ">
                     <input type="text" class="form-control col-md-8" id="" style="margin: 0 0 0px 0; !important;"
                         placeholder=" Total Qauntity" readonly>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <input type="number" wire:model.lazy="tCompound" class="form-control" id="" placeholder="">
                         @error('tCompound')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
 
                     </div>
-                    <label class="col-md-1 mb-1" style="font-size:28px;">%</label>
-                    
+                    <label class="col-md-2 mb-1" style="font-size:17px;">gms</label>
+
                 </div>
 
                 <div class="form-group row">
@@ -218,7 +218,7 @@
         {{-- advertise here --}}
         <div class="card-header">
         </div>
-        <div class="card" style="height: 32%;">
+        <div class="card" style="height: 40%;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 d-flex justify-content-center">
@@ -238,7 +238,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-1">
+        <div class="card mt-1 mb-3">
             <div class="card-body bgcolor">
                 <div class="form-group row">
                     {{-- <input type="text" class="form-control col-md-12" id="" value = "{{ $total_price }}" placeholder="Calculate Your Price"> --}}
@@ -250,16 +250,19 @@
                     <input type="text" class="form-control col-md-6" id="" placeholder="Pharmacy Price"
                         value="{{ $total_price }}" readonly>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="" placeholder="Patient Price" readonly>
+                        <input type="text" class="form-control" id="" placeholder="Patient Price"
+                            value="{{ $patient_price }}" readonly>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="offset-md-1 col-md-10 offset-md-1">
+    <div class="col-md-1"></div>
+    <div class="col-md-6 m-4"></div>
+    <div class="col-md-4 m-4">
         <div class="card">
             <div class="card-body bgcolor">
-                <div class="form-group col-md-12">
+                <div class="form-group">
                     <textarea placeholder="Order Notes" class="form-control col-md-12"></textarea>
                 </div>
                 <div class="form-group">
@@ -275,22 +278,23 @@
         <p class="d-flex justify-content-center">Question? Please call us At Macleod Trail Compounding Pharmcay
             &nbsp; <span><i class="fas fa-phone-square"></i> &nbsp;403-452-6013</span></p>
     </div>
-        <div wire:ignore.self class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Error</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Quantity Error.Please Call 403-452-6013 & discuss with a Compounding.</p>
-                    </div>
-                    <div class="modal-footer">
-                        {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" wire:click="priceReset()">Ok</button>
-                    </div>
+    <div wire:ignore.self class="modal fade" id="modalError" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Quantity Error.Please Call 403-452-6013 & discuss with a Compounding.</p>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        wire:click="priceReset()">Ok</button>
                 </div>
             </div>
         </div>
+    </div>
 </div>
-
