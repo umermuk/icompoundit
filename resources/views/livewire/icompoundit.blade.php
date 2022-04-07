@@ -250,7 +250,7 @@
                     <input type="text" class="form-control col-md-6" id="" placeholder="Pharmacy Price"
                         value="{{ $total_price }}" readonly>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="" placeholder="Patient Price" readonly>
+                        <input type="text" class="form-control" id="" placeholder="Patient Price" value="{{ $patient_price }}" readonly>
                     </div>
                 </div>
             </div>

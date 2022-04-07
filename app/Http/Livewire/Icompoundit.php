@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Icompoundit extends Component
 {
-    public $tropical,$bases,$packings,$packings_id,$deliveries,$tCompound = 0;
+    public $tropical,$bases,$packings,$packings_id,$deliveries,$tCompound = 0,$patient_price=0;
     public $baseInput,$baseInput2,$baseInput3, $basePack = "",$delivery="";
     public $tropical1Input = "", $tropical2Input = "", $tropical3Input = "", $tropical4Input = "", $tropical5Input = "";
     public $tropical_price1,$tropical_price2,$tropical_price3,$tropical_price4,$tropical_price5,$base_price,$base_price2,$base_price3;
@@ -211,6 +211,7 @@ class Icompoundit extends Component
             $this->total_price = 0;
         }
         if($this->delivery_price) $this->total_price += $this->delivery_price;
+        $this->patient_price = $this->total_price * 1.07 + 12.15;
 
             // if($this->price1 > 100){
             //     if($this->packings_id == 2){
@@ -442,13 +443,14 @@ class Icompoundit extends Component
         if($this->price6 == "") $this->price6 = 0;
         // if($this->price7 == "") $this->price7 = 0;
         // if($this->price8 == "") $this->price8 = 0;
+        $this->price6 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5;
         
-        $this->gram_price = ($this->price1) +
-        ($this->price2) +
-        ($this->price3) +
-        ($this->price4) +
-        ($this->price5) +
-        ($this->price6);
+        // $this->gram_price = ($this->price1) +
+        // ($this->price2) +
+        // ($this->price3) +
+        // ($this->price4) +
+        // ($this->price5) +
+        // ($this->price6);
         // ($this->price7) +
         // ($this->price8);
         
@@ -458,8 +460,8 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->tropical_price1 = 0;
             $this->price1 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             $this->ingredientPrice = 
@@ -473,8 +475,8 @@ class Icompoundit extends Component
             }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price1 = $tropicals_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -482,8 +484,8 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->tropical_price2 = 0;
             $this->price2 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             if($this->price1 == "") $this->price1 = 0;
@@ -504,8 +506,8 @@ class Icompoundit extends Component
             }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price2 = $tropicals_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -513,8 +515,8 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->tropical_price3 = 0;
             $this->price3 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             if($this->price1 == "") $this->price1 = 0;
@@ -535,8 +537,8 @@ class Icompoundit extends Component
             }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price3 = $tropicals_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -544,8 +546,8 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->tropical_price4 = 0;
             $this->price4 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
                 if($this->price1 == "") $this->price1 = 0;
@@ -566,8 +568,8 @@ class Icompoundit extends Component
             }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price4 = $tropicals_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -575,8 +577,8 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->tropical_price5 = 0;
             $this->price5 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             if($this->price1 == "") $this->price1 = 0;
@@ -597,8 +599,8 @@ class Icompoundit extends Component
             }
             $tropicals_price = TropicalsCompounding::where('id',$value)->first();
             $this->tropical_price5 = $tropicals_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -606,15 +608,15 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->base_price = 0;
             $this->price6 = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
            
             $bases_price = BasesCompounding::where('id',$value)->first();
             $this->base_price = $bases_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
@@ -654,34 +656,34 @@ class Icompoundit extends Component
         if(empty($value)){
             $this->packings_id = null;
             $this->packing_price = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             // $packings_price = Packing::where('id',$value)->first();
             // $this->packing_price = $packings_price->price;
             $this->packings_id = $value;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
     public function updatedDelivery($value){
         if(empty($value)){
             $this->delivery_price = 0;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }else{
             $deliveries_price = Delivery::where('id',$value)->first();
             $this->delivery_price = $deliveries_price->price;
-            // $this->calculateGrams();
-            $this->calculateTotal();
+            $this->calculateGrams();
+            // $this->calculateTotal();
 
         }
     }
     public function updatedPrice1(){
-        // $this->calculateGrams();
+        $this->calculateGrams();
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
@@ -698,10 +700,10 @@ class Icompoundit extends Component
         if($this->price1 > 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     public function updatedPrice2(){
-        // $this->calculateGrams();
+        $this->calculateGrams();
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
@@ -718,10 +720,10 @@ class Icompoundit extends Component
         if($this->price2 > 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     public function updatedPrice3(){
-        // $this->calculateGrams();
+        $this->calculateGrams();
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
@@ -738,10 +740,10 @@ class Icompoundit extends Component
         if($this->price3 > 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     public function updatedPrice4(){
-        // $this->calculateGrams();
+        $this->calculateGrams();
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
@@ -758,10 +760,10 @@ class Icompoundit extends Component
         if($this->price4 > 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     public function updatedPrice5(){
-        // $this->calculateGrams();
+        $this->calculateGrams();
         if($this->price1 == "") $this->price1 = 0;
         if($this->price2 == "") $this->price2 = 0;
         if($this->price3 == "") $this->price3 = 0;
@@ -778,13 +780,13 @@ class Icompoundit extends Component
         if($this->price5 > 50 || $this->ingredientPrice > 50){
             $this->dispatchBrowserEvent('modal');
         }
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     public function updatedPrice6(){
-        $this->calculateTotal();
+        // $this->calculateTotal();
     } 
     public function updatedTCompound(){
-        $this->calculateTotal();
+        // $this->calculateTotal();
     }
     // public function updatedPrice7(){
     //     $this->calculateGrams();
