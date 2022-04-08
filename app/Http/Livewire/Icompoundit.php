@@ -158,6 +158,7 @@ class Icompoundit extends Component
                     ($this->tropical_price4 * $this->price4) +
                     ($this->tropical_price5 * $this->price5) +
                     ($this->base_price * $this->price6) + 25 ;
+
                     if($this->packings_id == 2){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
                         $this->packing_price = $packing_price->price;
@@ -211,7 +212,7 @@ class Icompoundit extends Component
             $this->total_price = 0;
         }
         if($this->delivery_price) $this->total_price += $this->delivery_price;
-        $this->patient_price = $this->total_price * 1.07 + 12.15;
+        $this->patient_price = round($this->total_price * 1.07 + 12.15,2);
 
             // if($this->price1 > 100){
             //     if($this->packings_id == 2){
