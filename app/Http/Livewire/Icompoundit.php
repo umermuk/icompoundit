@@ -53,6 +53,7 @@ class Icompoundit extends Component
         $this->total_price = 0;
         $this->gram_price = 0;
         $this->ingredientPrice = 0;
+        $this->patient_price = 0;
     }
 
     public function total()
@@ -148,16 +149,17 @@ class Icompoundit extends Component
         // if($this->price6==0) $this->total_price += $this->base_price * 1 ;
 
         if($this->tropical_price1 != null || $this->tropical_price2 != null || $this->tropical_price3 != null || $this->tropical_price4 != null || $this->tropical_price5 != null || $this->base_price != null){
-            if($this->price1 != 0 || $this->price2 != 0 || $this->price3 != 0 || $this->price4 != 0 || $this->price5 != 0 || $this->price6 != 0 || $this->tCompound != 0 ){
+            if($this->price1 != 0 || $this->price2 != 0 || $this->price3 != 0 || $this->price4 != 0 || $this->price5 != 0 || $this->price6 != 0 ){
                 $this->price6 = 100 - $this->price1 - $this->price2 - $this->price3 - $this->price4 - $this->price5;
-                if($this->tCompound <= 100 && $this->tCompound != 0){
+                
+                if( $this->tCompound != 0){
                     $this->total_price = 
-                    ($this->tropical_price1 * $this->price1) +
-                    ($this->tropical_price2 * $this->price2) +
-                    ($this->tropical_price3 * $this->price3) +
-                    ($this->tropical_price4 * $this->price4) +
-                    ($this->tropical_price5 * $this->price5) +
-                    ($this->base_price * $this->price6) + 25 ;
+                    ($this->tropical_price1 * ($this->price1 / 100 * $this->tCompound)) +
+                    ($this->tropical_price2 * ($this->price2 / 100 * $this->tCompound)) +
+                    ($this->tropical_price3 * ($this->price3 / 100 * $this->tCompound)) +
+                    ($this->tropical_price4 * ($this->price4 / 100 * $this->tCompound)) +
+                    ($this->tropical_price5 * ($this->price5 / 100 * $this->tCompound)) +
+                    ($this->base_price * ($this->price6 / 100 * $this->tCompound)) + 25 ;
 
                     if($this->packings_id == 2){
                         $packing_price = Packing::where('id',$this->packings_id)->first();
@@ -175,33 +177,34 @@ class Icompoundit extends Component
                         $this->total_price += $this->packing_price;
                         // dd($this->total_price);
                     }
-                }else{
-                    $percent = $this->tCompound - 100;
-                    $this->total_price = 
-                    ($this->tropical_price1 * $this->price1) +
-                    ($this->tropical_price2 * $this->price2) +
-                    ($this->tropical_price3 * $this->price3) +
-                    ($this->tropical_price4 * $this->price4) +
-                    ($this->tropical_price5 * $this->price5) +
-                    ($this->base_price * $this->price6) +  (25 * (1 + ($percent / 100) ));
-                    // $total = $this->total_price * (1 + ($percent / 100) ); 
-                    // $this->total_price = $total;
+                }
+                else{
+                    $this->total_price = 0;
+                    // $percent = $this->tCompound - 100;
+                    // $this->total_price = 
+                    // ($this->tropical_price1 * $this->price1) +
+                    // ($this->tropical_price2 * $this->price2) +
+                    // ($this->tropical_price3 * $this->price3) +
+                    // ($this->tropical_price4 * $this->price4) +
+                    // ($this->tropical_price5 * $this->price5) +
+                    // ($this->base_price * $this->price6) +  (25 * (1 + ($percent / 100) ));
+                    // // $total = $this->total_price * (1 + ($percent / 100) ); 
+                    // // $this->total_price = $total;
 
-                    if($this->packings_id == 2){
-                        $packing_price = Packing::where('id',$this->packings_id)->first();
-                        $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
-                        $this->total_price += $this->packing_price;
-                    }
-                    if($this->packings_id == 3){
-                        $packing_price = Packing::where('id',$this->packings_id)->first();
-                        $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
-                        $this->total_price += $this->packing_price;
-                    }
-                    if($this->packings_id == 1 || $this->packings_id == 4){
-                        $packing_price = Packing::where('id',$this->packings_id)->first();
-                        $this->packing_price = $packing_price->price;
-                        $this->total_price += $this->packing_price;
-                    }
+                    // if($this->packings_id == 2){
+                    //     $packing_price = Packing::where('id',$this->packings_id)->first();
+                    //     $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
+                    //     $this->total_price += $this->packing_price;
+                    // }
+                    // if($this->packings_id == 3){
+                    //     $packing_price = Packing::where('id',$this->packings_id)->first();
+                    //     $this->packing_price = $packing_price->price * ceil(1 + ($percent / 100));
+                    //     $this->total_price += $this->packing_price;
+                    // }
+                    // if($this->packings_id == 1 || $this->packings_id == 4){
+                    //     $packing_price = Packing::where('id',$this->packings_id)->first();
+                    //     $this->packing_price = $packing_price->price;
+                    //     $this->total_price += $this->packing_price;
                 }
                 // ($this->base_price2 * $this->price7 ) 
                 // ($this->base_price3 * $this->price8) 
